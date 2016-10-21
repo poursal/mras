@@ -1,0 +1,96 @@
+{
+	"HomeTheater": {
+		"status": "off",
+		"wirringPI": 23,
+		"WaitUntil": 1475138999,
+		"BackOff": {
+			"PowerOn": 35,
+			"PowerOff": 10
+		},
+		"commands": {
+			"power": [
+				"/usr/bin/irsend SEND_ONCE SONY-BDV-E4100 KEY_POWER"
+			],
+			"VolumeUp": [
+				"/usr/bin/irsend SEND_ONCE SONY-BDV-E4100 KEY_VOLUMEUP"
+			],
+			"VolumeDown": [
+				"/usr/bin/irsend SEND_ONCE SONY-BDV-E4100 KEY_VOLUMEDOWN"
+			],
+			"VolumeMute": [
+				"/usr/bin/irsend SEND_ONCE SONY-BDV-E4100 KEY_MUTE"
+			],
+			"function": [
+				"/usr/bin/irsend SEND_ONCE SONY-BDV-E4100 KEY_SELECT"
+			],
+			"powerIR": [
+				"/usr/bin/irsend SEND_ONCE SONY-BDV-E4100 KEY_POWER"
+			]
+		}
+	},
+	"speakers": {
+		"LivingRoom": {
+			"status": "on",
+			"wirringPI": 6 
+		},
+		"DiningRoom": {
+			"status": "on",
+			"wirringPI": 13
+		},
+		"Entrance": {
+			"status": "off",
+			"wirringPI": 12
+		},
+		"BedRoom1": {
+			"status": "off",
+			"wirringPI": 0
+		},
+		"BedRoom2": {
+			"status": "on",
+			"wirringPI": 2
+		},
+		"BedRoom3": {
+			"status": "on",
+			"wirringPI": 1
+		},
+		"groups": [
+			{
+				"name": "All",
+				"speakers": [
+					"BedRoom1",
+					"BedRoom2",
+					"BedRoom3",
+					"DiningRoom",
+					"LivingRoom",
+					"Entrance"
+				]
+			},
+			{
+				"name": "Dafne's Bedroom",
+				"speakers": [
+					"BedRoom3"
+				]
+			},
+			{
+				"name": "Other Bedroom",
+				"speakers": [
+					"BedRoom2"
+				]
+			},
+			{
+				"name": "Master Bedroom",
+				"speakers": [
+					"BedRoom1"
+				]
+			},
+			{
+				"name": "Living Room",
+				"speakers": [
+					"DiningRoom",
+					"LivingRoom",
+					"Entrance"
+				]
+			}
+		]
+	}
+}
