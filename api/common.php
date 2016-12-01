@@ -36,12 +36,7 @@ function loadSettings($forUpdate = false, $mediaCommand = null) {
 		$_SETTINGS["HomeTheater"]["uptime"] = shell_exec('uptime -p');
 
 		//Get media details
-		$media = mediaDetails($mediaCommand);
-		$_SETTINGS["media"]["now"]["id"] = $media[0];
-		$_SETTINGS["media"]["now"]["name"] = $media[1];
-		$_SETTINGS["media"]["now"]["status"] = $media[2];
-		$_SETTINGS["media"]["repeat"] = $media[3];
-		$_SETTINGS["media"]["random"] = $media[4];
+		mediaDetails($mediaCommand);
 
 		populateMediaDetails();
 
@@ -124,6 +119,17 @@ function handlePowerToggle() {
 
 		sleep($_SETTINGS["HomeTheater"]["BackOff"]["PowerOff"]);
 		writeGPIO($_SETTINGS["HomeTheater"]["wirringPI"], "off");
+
+		//Stop playback
+		mediaDetails("stop");
+		//Turn off speakers
+		$speakers = array_keys($_SETTINGS["speakers"]);
+		foreach($speakers as $name) {
+			if ( $name=="groups" )
+				continue;
+			toggleSpeaker($name, "off");
+		}
+
 		sleep($goodbyeSecs);
 	}
 	else {
@@ -139,6 +145,8 @@ function handlePowerToggle() {
 }
 
 function mediaDetails($command = null) {
+	global $_SETTINGS;
+
 	$output = null;
 	$outcome[0] = 0;
 	$outcome[1] = "None";
@@ -190,6 +198,12 @@ function mediaDetails($command = null) {
 		}
 	}
 
+	$_SETTINGS["media"]["now"]["id"] = $outcome[0];
+	$_SETTINGS["media"]["now"]["name"] = $outcome[1];
+	$_SETTINGS["media"]["now"]["status"] = $outcome[2];
+	$_SETTINGS["media"]["repeat"] = $outcome[3];
+	$_SETTINGS["media"]["random"] = $outcome[4];
+
 	return $outcome;
 }
 
@@ -206,6 +220,41 @@ function populateMediaDetails() {
 	for($i=0; $i<count($output2); $i++) {
 		$pathinfo = pathinfo($output2[$i]);
 		$_SETTINGS["media"]["playlist"]["current"][] = $pathinfo['filename'];
+	}
+}
+
+function toggleSpeaker($name, $status, $withMute = false) {
+	global $_SETTINGS;
+
+	if ( isset($_SETTINGS["speakers"][$name]) ) {
+		if ( $status==$_SETTINGS["speakers"][$name]["status"] ) {
+			return 204;
+		}
+		else {
+			if ( $status=="on" )
+				$parsedStatus = "on";
+			else
+				$parsedStatus = "off";
+
+			if ( $withMute && $_SETTINGS["HomeTheater"]["status"]=="on" ) {
+				executeCommand($_SETTINGS["HomeTheater"]["commands"]["VolumeMute"]);
+				//sleep(1);
+				usleep(500000);
+			}
+
+			writeGPIO($_SETTINGS["speakers"][$name]["wirringPI"], $parsedStatus);
+
+			if ( $withMute && $_SETTINGS["HomeTheater"]["status"]=="on" ) {
+				executeCommand($_SETTINGS["HomeTheater"]["commands"]["VolumeMute"]);
+			}
+
+			$_SETTINGS["speakers"][$name]["status"] = $parsedStatus;
+
+			return 200;
+		}
+	}
+	else {
+		return 404;
 	}
 }
 

@@ -240,40 +240,5 @@ function mediaExecute($app, $command) {
 	}
 }
 
-function toggleSpeaker($name, $status, $withMute = false) {
-	global $_SETTINGS;
-
-	if ( isset($_SETTINGS["speakers"][$name]) ) {
-		if ( $status==$_SETTINGS["speakers"][$name]["status"] ) {
-			return 204;
-		}
-		else {
-			if ( $status=="on" )
-				$parsedStatus = "on";
-			else
-				$parsedStatus = "off";
-
-			if ( $withMute && $_SETTINGS["HomeTheater"]["status"]=="on" ) {
-				executeCommand($_SETTINGS["HomeTheater"]["commands"]["VolumeMute"]);
-				//sleep(1);
-				usleep(500000);
-			}
-
-			writeGPIO($_SETTINGS["speakers"][$name]["wirringPI"], $parsedStatus);
-
-			if ( $withMute && $_SETTINGS["HomeTheater"]["status"]=="on" ) {
-				executeCommand($_SETTINGS["HomeTheater"]["commands"]["VolumeMute"]);
-			}
-
-			$_SETTINGS["speakers"][$name]["status"] = $parsedStatus;
-
-			return 200;
-		}
-	}
-	else {
-		return 404;
-	}
-}
-
 $app->run();
 
