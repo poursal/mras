@@ -19,6 +19,7 @@
 	var homeLine6 = '<div class="row-fluid"><div class="col-xs-12" style="text-align: center;"><button class="btn btn-%BUTTON_CLASS1% btn2" onclick="toggleSpeaker(\'BedRoom1\', \'%BUTTON_ICON1%\')" style="color: #d3d3d3"><i class="fa fa-bed fa-3x"></i><i class="fa fa-volume-%BUTTON_ICON1% fa-3x" style="width: 90px"></i></button><button class="btn btn-%BUTTON_CLASS2% btn2" onclick="toggleSpeaker(\'Entrance\', \'%BUTTON_ICON2%\')"><i class="fa fa-building fa-3x"></i><i class="fa fa-volume-%BUTTON_ICON2% fa-3x" style="width: 110px"></i></button></div></div>';
 	var homePlay1 = '<button class="btn btn-primary" onclick="executeMedia(\'prev\')"><i class="fa fa-step-backward fa-3x"></i></button><button class="btn btn-%BUTTON_CLASS_PLAY%" onclick="executeMedia(\'stop\')"><i class="fa fa-stop fa-3x"></i></button><button class="btn btn-%BUTTON_CLASS_PLAY%" onclick="executeMedia(\'toggle\')"><i class="fa fa-%BUTTON_PLAY% fa-3x"></i></button><button class="btn btn-primary" onclick="executeMedia(\'next\')"><i class="fa fa-step-forward fa-3x"></i></button>';
 	var homePlay2 = '<button class="btn btn-%CLASS_REPEAT%" onclick="executeMedia(\'repeat\')"><i class="fa fa-repeat fa-3x"></i></button><button class="btn btn-%CLASS_RANDOM%" onclick="executeMedia(\'random\')"><i class="fa fa-random fa-3x"></i></button><button class="btn btn-danger" onclick="executeMedia(\'clear\')"><i class="fa fa-times fa-3x"></i></button>';
+	var homePlay3 = '<button class="btn btn-primary" style="padding-left: 8px;" onclick="executeMedia(\'seek -30\')"><i class="fa fa-fast-backward fa-3x"></i></button><button class="btn btn-primary" style="padding-left: 8px;" onclick="executeMedia(\'seek -5\')"><i class="fa fa-backward fa-3x"></i></button><button class="btn btn-primary" onclick="executeMedia(\'seek 5\')"><i class="fa fa-forward fa-3x"></i></button><button class="btn btn-primary" style="padding-left: 8px;" onclick="executeMedia(\'seek 30\')"><i class="fa fa-fast-forward fa-3x"></i></button>';
 	var tableHead = '<table class="table"><thead><tr><th>#</th><th style="width: 100%">Song</th><th>Actions</th></tr></thead><tbody>';
 	var tableBody = '<tr><th style="vertical-align: middle;" scope="row">%PLAYLIST_ID%</th><td style="vertical-align: middle; text-align: left;">%PLAYLIST_SONG%</td><td style="text-align: left;"><button class="btn btn-small btn-primary" style="margin-left: 0px" onclick="executeMedia(\'play/%PLAYLIST_ID%\')"><i class="fa fa-chevron-right"></i></button></td></tr>';
 	var tableFoot = '</tbody></table></div></div>';
@@ -284,6 +285,7 @@
 			tmpTemplate = homePlay2.replace(new RegExp("%CLASS_RANDOM%", 'g'), randomClass);
 			tmpTemplate = tmpTemplate.replace(new RegExp("%CLASS_REPEAT%", 'g'), repeatClass);
 			contentAll += tmpTemplate;
+			contentAll += '</div></div>' + rowHeader + homePlay3;
 			contentAll += '</div></div><div class="row-fluid"><div class="col-xs-12 col-md-6 col-md-offset-3" style="text-align: center; margin-top: 20px; margin-bottom: 20px;">';
 
 			contentAll += '<select id="pls" class="form-control input-lg">';

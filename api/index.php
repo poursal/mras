@@ -184,8 +184,17 @@ $app->get('/media/:name', function ($name) use ($app) {
 	$commands["repeat"] = true;
 	$commands["random"] = true;
 	$commands["clear"] = true;
+	$commands["seek -30"] = true;
+	$commands["seek -5"] = true;
+	$commands["seek 5"] = true;
+	$commands["seek 30"] = true;
 
 	if ( isset($commands[$name]) && $commands[$name] ) {
+		if ( $name=="seek 5")
+			$name = "seek +5";
+		else if ( $name=="seek 30")
+			$name = "seek +30";
+
 		if ( loadSettings(false, $name) ) {
 			$app->response->setBody(json_encode($_SETTINGS));
 			unlockSettings();
