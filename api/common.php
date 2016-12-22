@@ -157,7 +157,7 @@ function mediaDetails($command = null) {
 	if ( $command==null )
 		$command = "status";
 
-	exec('mpc -f "Now: \[%position%\] /%file%" '. $command, $output);
+	exec('mpc -f "Now: \[%position%\] [[%artist% - ]%title%]|[%file%]" '. $command, $output);
 
 	for($i=0; $i<count($output); $i++) {
 		if ( strpos($output[$i], "Now: ")===0 ) {
@@ -166,11 +166,12 @@ function mediaDetails($command = null) {
 
 			$outcome[0] = intval(substr($output[$i], $strPos + 1, $endPos - $strPos - 1));
 
-			$pathinfo = pathinfo(substr($output[$i], $endPos + 2));
-			$outcome[1] = $pathinfo['filename'];
+			//$pathinfo = pathinfo(substr($output[$i], $endPos + 2));
+			//$outcome[1] = $pathinfo['filename'];
+			$outcome[1] = substr($output[$i], $endPos + 2);
 
-			if ( strlen($outcome[1])>30 ) {
-				$outcome[1] = substr($outcome[1], 0, 30) ."...";
+			if ( mb_strlen($outcome[1])>30 ) {
+				$outcome[1] = mb_substr($outcome[1], 0, 30) ."...";
 			}
 		}
 		else if ( strpos($output[$i], "[")===0 ) {
@@ -216,10 +217,11 @@ function populateMediaDetails() {
 
 	$output2 = array();
 	$_SETTINGS["media"]["playlist"]["current"] = array();
-	exec('mpc -f %file% playlist', $output2);
+	exec('mpc -f "[[%artist% - ]%title%]|[%file%]" playlist', $output2);
 	for($i=0; $i<count($output2); $i++) {
-		$pathinfo = pathinfo($output2[$i]);
-		$_SETTINGS["media"]["playlist"]["current"][] = $pathinfo['filename'];
+		//$pathinfo = pathinfo($output2[$i]);
+		//$_SETTINGS["media"]["playlist"]["current"][] = $pathinfo['filename'];
+		$_SETTINGS["media"]["playlist"]["current"][] = $output2[$i];
 	}
 }
 
