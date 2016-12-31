@@ -47,11 +47,11 @@ function loadSettings($forUpdate = false, $mediaCommand = null) {
 function saveSettings() {
 	global $_SETTINGS, $_SETTINGS_FP;
 
-	ftruncate($_SETTINGS_FP, 0);      // truncate file
+	ftruncate($_SETTINGS_FP, 0);     // truncate file
 	rewind($_SETTINGS_FP);
 
 	fwrite($_SETTINGS_FP, json_encode($_SETTINGS));
-	fflush($_SETTINGS_FP);            // flush output before releasing the lock
+	fflush($_SETTINGS_FP);           // flush output before releasing the lock
 
 	unlockSettings();
 }
@@ -169,6 +169,9 @@ function mediaDetails($command = null) {
 			//$pathinfo = pathinfo(substr($output[$i], $endPos + 2));
 			//$outcome[1] = $pathinfo['filename'];
 			$outcome[1] = substr($output[$i], $endPos + 2);
+			if ( $outcome[1]==false ) {
+				$outcome[1] = "Unknown";
+			}
 
 			if ( mb_strlen($outcome[1])>30 ) {
 				$outcome[1] = mb_substr($outcome[1], 0, 30) ."...";

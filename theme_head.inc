@@ -15,6 +15,7 @@
     <link rel="stylesheet" href="bootstrap/select2/select2.css">
     <link rel="stylesheet" href="bootstrap/select2-bootstrap.css">
     <link rel="stylesheet" href="fontawesome/css/font-awesome.min.css">
+    <link rel="stylesheet" href="fontawesome/css/font-awesome-animation.min.css">
 
     <style>
 	.btn { height: 60px; width: 60px; margin: 6px; }

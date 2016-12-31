@@ -24,7 +24,7 @@
 	var tableBody = '<tr><th style="vertical-align: middle;" scope="row">%PLAYLIST_ID%</th><td style="vertical-align: middle; text-align: left;">%PLAYLIST_SONG%</td><td style="text-align: left;"><button class="btn btn-small btn-primary" style="margin-left: 0px" onclick="executeMedia(\'play/%PLAYLIST_ID%\')"><i class="fa fa-chevron-right"></i></button></td></tr>';
 	var tableFoot = '</tbody></table></div></div>';
 	var statusTemplate = '<div class="row-fluid"><div class="col-xs-6" style="text-align: right;"><h4>%TITLE%:</h4></div><div class="col-xs-6" style="text-align: left;"><h4>%VALUE%</h4></div></div>';
-	var youtubeTemplate = '<div class="row-fluid" style="margin-top: 20px;"><div class="col-xs-12 col-md-offset-3 col-md-6" style="text-align: left;"><form action="youtube_play.php" method="post"><div class="form-group"><label for="exampleInputEmail1">Youtube video:</label><input type="text" class="form-control input-lg" id="url" name="url" placeholder="Youtube video URL"></div><div class="checkbox input-lg"><label><input style="margin-top: 6px;" type="checkbox" name="clear"> Clear playlist</label></div><button type="submit" class="btn btn-primary" style="width: 120px;" onClick="$(this).prop(\'disabled\',true);">Enqueue</button></form></div></div>';
+	var youtubeTemplate = '<div class="row-fluid" style="margin-top: 20px;"><div class="col-xs-12 col-md-offset-3 col-md-6" style="text-align: left;"><form id="yt" action="youtube_play.php" method="post"><div class="form-group"><label for="exampleInputEmail1">Youtube video:</label><input type="text" class="form-control input-lg" id="url" name="url" placeholder="Youtube video URL"></div><div class="checkbox input-lg"><label><input style="margin-top: 6px;" type="checkbox" name="clear"> Clear playlist</label></div><button id="yt_button" type="button" class="btn btn-primary" style="width: 120px;" onClick="ytSubmit();"><i id="yt_spinner" class="fa fa-circle-o-notch fa-2x faa-spin animated hidden"></i> <span id="yt_text">Enqueue</span></button></form></div></div>';
 	var page = "home";
 	var settings = null;
 	var max_retries = 3;
@@ -348,6 +348,14 @@
 	function executeMedia(commandName) {
 		//console.log("Media: " + commandName);
 		ajaxWrapper("/api/media/" + commandName);
+	}
+
+	function ytSubmit() {
+		$("#yt_spinner").removeClass("hidden");
+		$("#yt_text").addClass("hidden");
+		$("#yt_button").prop('disabled',true);
+
+		$("#yt").submit();
 	}
 
 	function isSpeakerGroupMuted(group) {
