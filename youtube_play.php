@@ -14,7 +14,7 @@ if ( preg_match("/^[A-Za-z0-9_-]{11}$/", $video)===1 ) {
 
 	//Check if the file is cached
 	if ( $cache_enabled==0 || !file_exists($location) ) {
-		exec("youtube-dl -g -f140 ". $video, $ex_output);
+		exec("youtube-dl -g -f140 -- ". $video, $ex_output);
 
 		//Download the file in the background
 		if ( $cache_enabled==1 ) {
