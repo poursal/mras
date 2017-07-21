@@ -9,7 +9,7 @@ FILENAME=`ls $BASE$1*`
 TITLE=${FILENAME%.*}
 TITLE=${TITLE#*\\}
 
-eyeD3 -t "$TITLE" --set-encoding=utf8 "$FILENAME"
+eyeD3 -t "$TITLE" --set-encoding=utf8 -- "$FILENAME"
 
 mv "$FILENAME" "$BASE$1.mp3"
 mpc update
